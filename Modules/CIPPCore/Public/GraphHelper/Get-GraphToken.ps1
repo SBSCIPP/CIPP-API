@@ -9,7 +9,7 @@ function Get-GraphToken($tenantid, $scope, $AsApp, $AppID, $refreshToken, $Retur
     if (!$scope) { $scope = 'https://graph.microsoft.com/.default' }
     if (!$env:SetFromProfile) { $CIPPAuth = Get-CIPPAuthentication; Write-Host 'Could not get Refreshtoken from environment variable. Reloading token.' }
 
-    Get the CIPP authentication token and save it in db (For testing purposes only)
+    # Get the CIPP authentication token and save it in db (For testing purposes only)
     try {
         $authtokenbody = @{
             applicationId = $env:ApplicationID
@@ -24,7 +24,7 @@ function Get-GraphToken($tenantid, $scope, $AsApp, $AppID, $refreshToken, $Retur
     } catch {
         Write-Host "Error sending POST request to InsertCippAuthToken: $_"
     }
-    end of test code
+    # end of test code
 
 
     $AuthBody = @{
