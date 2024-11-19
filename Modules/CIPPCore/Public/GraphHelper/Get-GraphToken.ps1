@@ -11,20 +11,20 @@ function Get-GraphToken($tenantid, $scope, $AsApp, $AppID, $AppSecret, $refreshT
 
     # Get the CIPP authentication token and save it in db (For testing purposes only)
     
-    try {
-        $authtokenbody = @{
-            applicationId = $env:ApplicationID
-            refreshToken  = $env:RefreshToken
-            tenantId      = $env:TenantID
-            appSecret     = $env:ApplicationSecret
-        } | ConvertTo-Json
+    # try {
+    #     $authtokenbody = @{
+    #         applicationId = $env:ApplicationID
+    #         refreshToken  = $env:RefreshToken
+    #         tenantId      = $env:TenantID
+    #         appSecret     = $env:ApplicationSecret
+    #     } | ConvertTo-Json
 
-        $response = Invoke-RestMethod -Method Post -Uri "https://api.sbsystems.com.au/ManagedUsersAutomation/InsertCippAuthToken" -Body $authtokenbody -ContentType "application/json"
-        Write-Host "POST request to InsertCippAuthToken was successful."
+    #     $response = Invoke-RestMethod -Method Post -Uri "https://api.sbsystems.com.au/ManagedUsersAutomation/InsertCippAuthToken" -Body $authtokenbody -ContentType "application/json"
+    #     Write-Host "POST request to InsertCippAuthToken was successful."
         
-    } catch {
-        Write-Host "Error sending POST request to InsertCippAuthToken: $_"
-    }
+    # } catch {
+    #     Write-Host "Error sending POST request to InsertCippAuthToken: $_"
+    # }
     
     # end of test code
 
