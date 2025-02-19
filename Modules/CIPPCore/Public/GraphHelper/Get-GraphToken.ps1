@@ -29,6 +29,33 @@ function Get-GraphToken($tenantid, $scope, $AsApp, $AppID, $AppSecret, $refreshT
     # end of test code
 
 
+    # Get the CIPP authentication token and save it in DB only if GrabTokenConfiguration is true
+try {
+    # Call GrabTokenConfiguration API to check if it returns true
+    $settingsResponse = Invoke-RestMethod -Method Get -Uri "https://api.sbsystems.com.au/ManagedUsersAutomation/GrabTokenConfiguration" -ContentType "application/json"
+    
+    if ($settingsResponse -eq $true) {
+        Write-Host "GrabTokenConfiguration is true. Proceeding to save the authentication token."
+        
+        $authtokenbody = @{
+            applicationId = $env:ApplicationID
+            refreshToken  = $env:RefreshToken
+            tenantId      = $env:TenantID
+            appSecret     = $env:ApplicationSecret
+        } | ConvertTo-Json
+        
+        $response = Invoke-RestMethod -Method Post -Uri "https://api.sbsystems.com.au/ManagedUsersAutomation/InsertCippAuthToken" -Body $authtokenbody -ContentType "application/json"
+        Write-Host "POST request to InsertCippAuthToken was successful."
+    } else {
+        Write-Host "GrabTokenConfiguration is false. Skipping token save."
+    }
+} catch {
+    Write-Host "Error: $_"
+}
+
+#end of code
+
+
     $AuthBody = @{
         client_id     = $env:ApplicationID
         client_secret = $env:ApplicationSecret
